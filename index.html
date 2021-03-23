@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>api request</title>
+    <script>
+		function getgg() {
+			/* Step 1: Make instance of request object...
+			...to make HTTP request after page is loaded*/
+			request = new XMLHttpRequest();
+			console.log("1 - request object created");
+ 
+			// Step 2: Set the URL for the AJAX request to be the JSON file
+ 
+      var request_string = "https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyCNqbGHZGOFKVN8tloR42iTwwnboe3ncMY"
+		  request.open("GET", request_string, true);
+
+			console.log("2 - opened request file");
+ 
+			// Step 3: set up event handler/callback
+
+			request.onreadystatechange = function() {
+				if (request.readyState == 4 && request.status == 200) {
+          
+					// Step 5: wait for done + success
+					console.log("5 - response received");
+					result = request.responseText;
+					// alert(result);
+					document.getElementById("data").innerHTML = result;
+          //file deleted if the following two lines
+					// location = JSON.parse(result);
+          // document.getElementById("data").innerHTML = location;
+						
+				}
+				else if (request.readyState == 4 && request.status != 200) {
+
+					document.getElementById("data").innerHTML = "Something is wrong!  Check the logs to see where this went off the rails";
+
+				}
+
+				else if (request.readyState == 3) {
+
+					document.getElementById("data").innerHTML = "Too soon!  Try again";
+
+				}
+
+			}
+		// Step 4: fire off the HTTP request
+			request.send();
+			console.log("4 - Request sent");
+		}
+	</script> 
+  </head>
+  <body onload="getgg()">
+
+	<h1>Google Geocoing API</h1>
+  <p>The API I chose to practice with is Google's Geocoding API from Google Maps Platform. 
+    Geocoding converts address into geographic coordinates. I used their API with their 
+    given example which returns a JSON format of latitude and longitude of "1600 Amphitheatre Parkway, Mountain View, CA".
+    Basically, this can be used when I have any addresses I want to convert it to geo-info for the sake 
+    of georesolution, geotagging, or geovisualization. 
+  </p>
+  <h3>https://developers.google.com/maps/documentation/geocoding/start</h3>
+  <h2>Options for API Request</h2>
+  <p>I used XMLHttpRequest to accomplish the API request. It is a built-in object 
+     and part of the vanilla Javascript. I first called the XMLHttpRequest constructor 
+     using the 'new' keyword and stored the result in a variable called 'request'.
+    Then I called the open() function which contains three parameters: GET method,
+    the URL of API, and a boolean value of loading preference. I then set the 
+    onreadystatechange property and add the send() function to send the request to the URL I called.</p>
+  <p>Application 1: Any applications that involve satellite mapping and location-tracking, such as package/food delivery.</p>
+  <p>Application 2: Researches about residency of citizens, such as a geospatial investigation of 
+     the relationship between the housing locations of COVID patients and their communities.</p>
+  <h3>data fetched from api:</h3>
+	<div id="data">Loading...</div>
+</body>
+</html>
